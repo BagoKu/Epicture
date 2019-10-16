@@ -1,6 +1,4 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
+import 'package:flutter_app/ImgurImage.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -9,18 +7,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Epicture',
       theme: ThemeData(
-        primarySwatch: Colors.blue
+        primaryColor: Colors.black,
       ),
-      home: MyHomePage(title: 'Epicture'),
+      home: MyHomePage(title: 'Random Pics'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
   final String title;
 
   @override
@@ -28,92 +24,121 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> doImages = new List();
-  ScrollController _scrollController = new ScrollController();
+  var mPageCount = 0;
+  bool isLoading = false;
+  int itemType = ImgurImage.TYPE_PROGRESS;
+  List<ImgurImage> imageList = [];
+  ScrollController _controller;
 
-  @override
-  void initState() {
-    super.initState();
-    fetchFive();
-    _scrollController.addListener(() {
-      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-        fetchFive();
-      }
-    });
+  _scrollListener() {
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      _fetchImages();
+    }
   }
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
+  void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+    super.initState();
+    _fetchImages();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      drawer: Drawer (
-        child:  ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child:Image.network('https://www.dailydot.com/wp-content/uploads/2018/10/memes-obesity.jpg'),
-              decoration: BoxDecoration(
-                color: Colors.grey,
-              ),
-            ),
-            ListTile(
-              title: Text('Theme 1'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Theme 2'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-        ),
-        body: ListView.builder(
-          controller: _scrollController,
-          itemCount: doImages.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              constraints: BoxConstraints.tightFor(height:  150.0),
-              child: Image.network(doImages[index], fit: BoxFit.fitWidth,)
-            );
-          }
-        )
+      body: _loadView(),
     );
   }
 
-  fetch() async{
-    final response = await http.get('https://dog.ceo/api/breeds/image/random');
-    if (response.statusCode == 200) {
-      setState(() {
-        doImages.add(json.decode(response.body)['message']);
-      });
-    }
-    else {
-      throw Exception('Failes to load images');
+  Widget _loadView() {
+    if (imageList.length == 0 ||
+        (imageList.length == 1 &&
+            imageList[0].itemType == ImgurImage.TYPE_PROGRESS)) {
+      return Center(child: CircularProgressIndicator());
+    } else if (imageList.length == 1 &&
+        imageList[0].itemType == ImgurImage.TYPE_ERROR) {
+      return Center(
+        child: RaisedButton(
+          onPressed: () {
+            _fetchImages();
+          },
+          child: Text('Try Again'),
+        ),
+      );
+    } else {
+      itemType = imageList[imageList.length - 1].itemType;
+      return Column(
+        children: <Widget>[
+          Expanded(
+            child: GridView.count(
+              crossAxisCount: 3,
+              controller: _controller,
+              children: List.generate(
+                imageList.length,
+                    (index) {
+                  var image = imageList[index];
+                  if (image.itemType == ImgurImage.TYPE_ITEM) {
+                    return Center(
+                        child: FadeInImage.assetNetwork(
+                            placeholder: 'assets/load.jpeg',
+                            image: image.link)
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ),
+          ),
+          _showIndicator(),
+        ],
+      );
     }
   }
 
-  fetchFive() {
-    for (int i = 0; i < 5 ; i++) {
-      fetch();
+  Widget _showIndicator() {
+    if (itemType == ImgurImage.TYPE_PROGRESS) {
+      return Container(
+        margin: EdgeInsets.all(20),
+        child: Center(child: CircularProgressIndicator()),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  void _fetchImages() async {
+    if (!isLoading) {
+      mPageCount++;
+      isLoading = true;
+
+      if (imageList.length == 1) imageList.removeLast();
+      imageList.add(ImgurImage(link: "", itemType: ImgurImage.TYPE_PROGRESS));
+      setState(() {});
+
+      await fetchImages(mPageCount).then((imgurImages) {
+        imageList.removeLast();
+        for (var value in imgurImages.images) {
+          if (value != null) {
+            imageList.add(value);
+          }
+        }
+      }).catchError((error) {
+        imageList.removeLast();
+        if (imageList.length == 0)
+          imageList.add(ImgurImage(link: "", itemType: ImgurImage.TYPE_ERROR));
+        if (mPageCount > 0) {
+          mPageCount--;
+        }
+      }).whenComplete(() {
+        isLoading = false;
+        setState(() {});
+      });
     }
   }
 }
