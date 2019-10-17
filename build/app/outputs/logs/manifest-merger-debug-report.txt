@@ -5,6 +5,7 @@ INJECTED from /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/android/app/src/main/An
 INJECTED from /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/android/app/src/main/AndroidManifest.xml:1:1-33:12
 INJECTED from /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/android/app/src/main/AndroidManifest.xml:1:1-33:12
 MERGED from /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/android/app/src/main/AndroidManifest.xml:1:1-33:12
+MERGED from [:shared_preferences] /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/build/shared_preferences/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_webview_plugin] /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/build/flutter_webview_plugin/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-5:12
 MERGED from [:webview_flutter] /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/build/webview_flutter/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:2:1-9:12
 INJECTED from /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/android/app/src/debug/AndroidManifest.xml:1:1-7:12
@@ -66,6 +67,8 @@ uses-sdk
 INJECTED from /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/android/app/src/main/AndroidManifest.xml
 INJECTED from /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/android/app/src/main/AndroidManifest.xml
+MERGED from [:shared_preferences] /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/build/shared_preferences/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences] /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/build/shared_preferences/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-44
 MERGED from [:webview_flutter] /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/build/webview_flutter/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-7:41
 MERGED from [:webview_flutter] /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/build/webview_flutter/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:5:5-7:41
 INJECTED from /home/BagoKu/Tek3/AppDev/DEV_epicture_2019/android/app/src/debug/AndroidManifest.xml

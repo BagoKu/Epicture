@@ -1,4 +1,4 @@
-#Thu Oct 17 16:59:08 CEST 2019
+#Thu Oct 17 18:33:27 CEST 2019
 base.0=/home/BagoKu/Tek3/AppDev/DEV_epicture_2019/build/app/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex

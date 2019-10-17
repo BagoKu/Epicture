@@ -106,9 +106,28 @@ class _MyHomePageState extends State<MyHomePage> {
                   var image = imageList[index];
                   if (image.itemType == ImgurImage.TYPE_ITEM) {
                     return Center(
-                      widthFactor: 10,
-                      child: FadeInImage.assetNetwork(
-                          placeholder: 'assets/load.jpeg', image: image.link),
+                      child: Card(
+                        semanticContainer: true,
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: Column(children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(image.title,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                          FadeInImage.assetNetwork(
+                              placeholder: 'assets/load.jpeg',
+                              image: image.link,
+                              fit: BoxFit.fill),
+                          Text(image.upvote),
+                        ]),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        elevation: 10,
+                        margin: EdgeInsets.all(10),
+                      ),
                     );
                   } else {
                     return Container();
@@ -140,7 +159,8 @@ class _MyHomePageState extends State<MyHomePage> {
       isLoading = true;
 
       if (imageList.length == 1) imageList.removeLast();
-      imageList.add(ImgurImage(link: "", itemType: ImgurImage.TYPE_PROGRESS));
+      imageList.add(
+          ImgurImage(link: "", itemType: ImgurImage.TYPE_PROGRESS, title: "", upvote: ""));
       //setState(() {});
 
       await fetchImages(mPageCount).then((imgurImages) {
@@ -153,7 +173,8 @@ class _MyHomePageState extends State<MyHomePage> {
       }).catchError((error) {
         imageList.removeLast();
         if (imageList.length == 0)
-          imageList.add(ImgurImage(link: "", itemType: ImgurImage.TYPE_ERROR));
+          imageList.add(
+              ImgurImage(link: "", itemType: ImgurImage.TYPE_ERROR, title: "", upvote: ""));
         if (mPageCount > 0) {
           mPageCount--;
         }
