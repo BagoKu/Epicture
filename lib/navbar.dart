@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './homePage.dart';
+import 'account.dart';
 
 class NavBar extends StatefulWidget {
   @override
@@ -22,10 +23,7 @@ class _NavBarStata extends State<NavBar> {
       'Search',
       style: TextStyle(fontSize: 30.0),
     ),
-    Text(
-      'User',
-      style: TextStyle(fontSize: 30.0),
-    ),
+    MyAccount(),
   ];
   @override
   Widget build(BuildContext context) {
