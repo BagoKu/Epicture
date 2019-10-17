@@ -6,7 +6,7 @@ class ListImages extends StatefulWidget {
 
   final List<ImgurImage> imageList;
   final int itemType;
-  ScrollController _controller;
+  final ScrollController _controller;
 
   ListImages(this.imageList, this.itemType, this._controller);
   @override
