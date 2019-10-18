@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 #Fri Oct 18 11:32:06 CEST 2019
 base.0=/home/mgery/delivery/TEK3/AppDev/DEV_epicture_2019/build/app/intermediates/transforms/dexMerger/debug/0
+=======
+#Thu Oct 17 18:33:27 CEST 2019
+base.0=/home/BagoKu/Tek3/AppDev/DEV_epicture_2019/build/app/intermediates/transforms/dexMerger/debug/0
+>>>>>>> bc72bc423df60d388146bc9ba105e569a55bf6a2
 path.0=classes.dex
 renamed.0=classes.dex

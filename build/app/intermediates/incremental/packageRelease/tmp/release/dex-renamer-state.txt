@@ -1,4 +1,0 @@
-#Wed Oct 16 10:10:45 CEST 2019
-base.0=/home/mgery/AndroidStudioProjects/flutter_app/build/app/intermediates/transforms/dexMerger/release/0
-path.0=classes.dex
-renamed.0=classes.dex
