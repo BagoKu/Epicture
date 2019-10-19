@@ -34,8 +34,8 @@ class ImgurAPi {
     String jsonPhotos = await _loadAccountInfo(username);
     final jsonResponse =
     json.decode(jsonPhotos)['data'] as List<dynamic>;
-    <UserAccount> accountInfoList =
-    jsonResponse.map((it) => UserAccount.fromJson(it)).toList();
+    Iterable<UserAccount> accountInfoList =
+    jsonResponse.map((it) => UserAccount.fromJson(it));
     return accountInfoList;
   }
 

@@ -75,7 +75,7 @@ class homeAccount extends StatelessWidget {
 
   Future<String> getUsername() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return(prefs.getString("account_username"));
+    return (prefs.getString("account_username"));
   }
 
   @override
@@ -121,7 +121,7 @@ class homeAccount extends StatelessWidget {
         )
     );
   }
-
+}
 
 class IsConnected extends StatelessWidget {
 
