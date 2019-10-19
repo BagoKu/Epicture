@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../models/GalleryAlbum.dart';
-import '../utils/DrawTitle.dart';
+import './DrawTitle.dart';
 
 class ShowInfo extends StatefulWidget {
   ShowInfo({Key key, this.info, this.size, this.color, this.radius, this.icon})
@@ -27,19 +28,18 @@ class _ShowInfoState extends State<ShowInfo> {
             ),
             color: widget.color,
             semanticContainer: true,
-            child: Padding(
-                padding: EdgeInsets.all(00),
-                child: SizedBox(
-                  height: widget.size,
+                child: Container(
+                  margin: const EdgeInsets.all(0),
+                  height: 30,
                   width: 75,
                   child: FlatButton.icon(
-                    icon: Icon(widget.icon),
+                    icon: Icon(widget.icon, size: 10),
                     onPressed: () {
                       /*...*/
                     },
-                    label: Text(widget.info, style: TextStyle(fontSize: 12.0)),
+                    label: Text(widget.info, style: TextStyle(fontSize: 10.0)),
                   ),
-                ))));
+                )));
   }
 }
 
