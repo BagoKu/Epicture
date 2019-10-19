@@ -1,6 +1,8 @@
 import 'package:flutter_app/navbar.dart';
-import './homePage.dart';
 import 'package:flutter/material.dart';
+
+import './GalleryAlbum.dart';
+import './ApiRequests.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,9 +17,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.blue,
-      ),
       home: NavBar(),
     );
   }

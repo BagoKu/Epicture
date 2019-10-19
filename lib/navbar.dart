@@ -43,7 +43,7 @@ class _NavBarStata extends State<NavBar> {
               _selectedTab = index;
             });
           },
-          items: const< BottomNavigationBarItem>[
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               title: Text('Home'),
@@ -56,11 +56,12 @@ class _NavBarStata extends State<NavBar> {
               icon: Icon(Icons.search),
               title: Text('Search'),
             ),
-          BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(Icons.account_circle),
               title: Text('Account'),
             ),
           ],
+          selectedFontSize: 10,
           selectedItemColor: Colors.blue,
           unselectedItemColor: Colors.black,
         ),

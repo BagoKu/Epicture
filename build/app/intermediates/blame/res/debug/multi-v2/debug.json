@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/BagoKu/Tek3/AppDev/DEV_epicture_2019/build/app/intermediates/res/merged/debug/values_values.arsc.flat",
+            "outputFile": "/home/mgery/delivery/TEK3/AppDev/DEV_epicture_2019/build/app/intermediates/res/merged/debug/values_values.arsc.flat",
             "map": [
                 {
-                    "source": "/home/BagoKu/Tek3/AppDev/DEV_epicture_2019/android/app/src/main/res/values/styles.xml",
+                    "source": "/home/mgery/delivery/TEK3/AppDev/DEV_epicture_2019/android/app/src/main/res/values/styles.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

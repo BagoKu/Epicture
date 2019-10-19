@@ -1,3 +1,6 @@
+import 'package:flutter_app/ApiRequests.dart';
+import 'package:flutter_app/GalleryAlbum.dart';
+
 import './ImgurImage.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
   _scrollListener() {
     if (_controller.offset >= _controller.position.maxScrollExtent &&
         !_controller.position.outOfRange) {
-      _fetchImages();
+      //_fetchImages();
     }
   }
 
@@ -32,17 +35,39 @@ class _MyHomePageState extends State<MyHomePage> {
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
     super.initState();
-    _fetchImages();
+    //_fetchImages();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: _homePage(),
-      drawer: Drawer(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        //body: _homePage(),
+        body: FutureBuilder<List<GalleryAlbum>>(
+            future: loadPhotos(0),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Text("Error");
+                }
+                if (snapshot.hasData) {
+                  return ListView(
+                      children: snapshot.data
+                          .where((it) =>
+                              it.images != null &&
+                              it.images.length > 0 &&
+                              it.images.first.type.contains("image"))
+                          .map((it) => FadeInImage.assetNetwork(
+                              placeholder: 'assets/load.jpeg',
+                              image: it.images.first.link))
+                          .toList());
+                }
+              }
+              return CircularProgressIndicator();
+            }));
+    /*drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -72,11 +97,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-      ),
-    );
+      ),*/
   }
 
-  Widget _homePage() {
+  /*Widget _homePage() {
     if (imageList.length == 0 ||
         (imageList.length == 1 &&
             imageList[0].itemType == ImgurImage.TYPE_PROGRESS)) {
@@ -97,6 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Expanded(
             child: ListView(
+              //crossAxisCount: 3,
               padding: const EdgeInsets.all(10),
               //crossAxisCount: 1,
               controller: _controller,
@@ -159,8 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
       isLoading = true;
 
       if (imageList.length == 1) imageList.removeLast();
-      imageList.add(
-          ImgurImage(link: "", itemType: ImgurImage.TYPE_PROGRESS, title: "", upvote: ""));
+      imageList.add(ImgurImage(link: "", itemType: ImgurImage.TYPE_PROGRESS, title: "", upvote: ""));
       //setState(() {});
 
       await fetchImages(mPageCount).then((imgurImages) {
@@ -173,8 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }).catchError((error) {
         imageList.removeLast();
         if (imageList.length == 0)
-          imageList.add(
-              ImgurImage(link: "", itemType: ImgurImage.TYPE_ERROR, title: "", upvote: ""));
+          imageList.add(ImgurImage(link: "", itemType: ImgurImage.TYPE_ERROR, title: "", upvote: ""));
         if (mPageCount > 0) {
           mPageCount--;
         }
@@ -184,4 +207,5 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
   }
+  */
 }

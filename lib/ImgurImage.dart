@@ -25,7 +25,7 @@ class ImgurImage {
   ImgurImage({this.link, this.itemType, this.title, this.upvote});
 
   factory ImgurImage.fromJson(Map<String, dynamic> json) {
-    if (json['type'] != null && json['type'] == "image/jpeg") {
+    if (json['type'] != null) {
       return ImgurImage(
         link: json['link'],
         title: json['title'],
@@ -39,8 +39,8 @@ class ImgurImage {
 
 Future<ImgurImages> fetchImages(int page) async {
   final response = await http.get(
-    'https://api.imgur.com/3/gallery/search/top/' +
-        '0?q_type=jpg&q_size_px=med&q=random',
+    'https://api.imgur.com/3/gallery/t/cats' +
+        page.toString(),
     headers: {HttpHeaders.authorizationHeader: "Client-ID 759705448d0ff69"},
   );
   if (response.statusCode == 200) {
