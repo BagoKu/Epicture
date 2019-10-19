@@ -1,10 +1,19 @@
 import 'dart:async' show Future;
 import 'dart:convert';
-import './models/GalleryAlbum.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 
+import './models/GalleryAlbum.dart';
+import './models/GalleryTags.dart';
+
 class ImgurAPi {
+  Future<String> _loadTags() async {
+    final response = await http.get(
+      'https://api.imgur.com/3/tags',
+      headers: {HttpHeaders.authorizationHeader: "Client-ID 759705448d0ff69"},
+    );
+    return response.body;
+  }
   Future<String> _loadPhotoAsset(int page) async {
     final response = await http.get(
       'https://api.imgur.com/3/gallery/t/cats/' + page.toString(),
@@ -19,6 +28,15 @@ class ImgurAPi {
         json.decode(jsonPhotos)['data']['items'] as List<dynamic>;
     List<GalleryAlbum> photosList =
         jsonResponse.map((it) => GalleryAlbum.fromJson(it)).toList();
+    return photosList;
+  }
+
+  Future<List<GalleryTags>> loadTags() async {
+    String jsonPhotos = await _loadTags();
+    final jsonResponse =
+    json.decode(jsonPhotos)['data']['tags'] as List<dynamic>;
+    List<GalleryTags> photosList =
+    jsonResponse.map((it) => GalleryTags.fromJson(it)).toList();
     return photosList;
   }
 }

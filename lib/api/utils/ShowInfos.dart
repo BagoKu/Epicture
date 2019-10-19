@@ -36,7 +36,7 @@ class _ShowInfoState extends State<ShowInfo> {
                     onPressed: () {
                       /*...*/
                     },
-                    label: Text(widget.info, style: TextStyle(fontSize: 10.0)),
+                    label: Text(widget.info, style: TextStyle(fontSize: 10.0, color: Colors.black)),
                   ),
                 )));
   }
@@ -76,19 +76,19 @@ class _ShowInfosState extends State<ShowInfos> {
           ShowInfo(
               info: widget.content.downs.toString(),
               size: 50,
-              color: Colors.blue,
+              color: Colors.orange,
               radius: 50,
               icon: Icons.arrow_downward),
           ShowInfo(
               info: widget.content.commentCount.toString(),
               size: 50,
-              color: Colors.blue,
+              color: Colors.green,
               radius: 50,
               icon: Icons.comment),
           ShowInfo(
               info: widget.content.views.toString(),
               size: 50,
-              color: Colors.blue,
+              color: Colors.white,
               radius: 50,
               icon: Icons.panorama_fish_eye)
         ])

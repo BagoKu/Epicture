@@ -26,6 +26,6 @@ class _DrawTitleState extends State<DrawTitle> {
             color: widget.color,
             semanticContainer: true,
             child: Padding(
-                padding: EdgeInsets.all(10), child: Text(widget.info))));
+                padding: EdgeInsets.all(10), child: Text(widget.info, style: TextStyle(color: Colors.white)))));
   }
 }

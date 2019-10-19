@@ -26,9 +26,8 @@ class _MyHomePageState extends State<MyHomePage> {
         !_controller.position.outOfRange) {
       mPageCount++;
       setState(() {
-        
+
       });
-      print(mPageCount);
     }
   }
 
@@ -37,12 +36,10 @@ class _MyHomePageState extends State<MyHomePage> {
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
     super.initState();
-    print('initstate');
   }
 
   @override
   Widget build(BuildContext context) {
-    print(mPageCount);
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),

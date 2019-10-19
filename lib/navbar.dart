@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/TagsView.dart';
 import './homePage.dart';
 import 'account.dart';
 
@@ -12,10 +13,7 @@ class NavBar extends StatefulWidget {
 class _NavBarStata extends State<NavBar> {
   int _selectedTab = 0;
   final _pageOptions = [
-    Text(
-      'Home',
-      style: TextStyle(fontSize: 30.0),
-    ),
+    TagList(title: 'Tags'),
     MyHomePage(
       title: 'Random pics',
     ),
