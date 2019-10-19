@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/api/utils/DrawTitle.dart';
+import './api/utils/DrawTiles.dart';
 import './api/ApiRequests.dart';
 import './api/models/GalleryTags.dart';
 
@@ -35,13 +37,14 @@ class _TagListState extends State<TagList> {
                     return Column(
                         children: <Widget>[
                           Expanded(
-                            child: ListView(
+                            child: GridView.count(
+                              crossAxisCount: 4,
                                 controller: _controller,
                                 padding: const EdgeInsets.all(10),
                                 children: snapshot.data.where((it) =>
                                 it.name != null)
                                     .map((it) =>
-                                    Text(it.name))
+                                    DrawTiles(content: it.name, color: Colors.green, radius: 10))
                                     .toList()
                               //children: snapshot.data.where((it) =>it.images != null && it.images.length > 0 && it.images.first.type.contains("image")).map((it) => FadeInImage.assetNetwork(placeholder: 'assets/load.jpeg',image: it.images.first.link)).toList()
                             ),
