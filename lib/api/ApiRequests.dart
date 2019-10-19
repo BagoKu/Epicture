@@ -30,11 +30,11 @@ class ImgurAPi {
     return response.body;
   }
 
-  Future<List<UserAccount>> loadUserAccountInfo(String username) async {
+  Future<UserAccount> loadUserAccountInfo(String username) async {
     String jsonPhotos = await _loadAccountInfo(username);
     final jsonResponse =
     json.decode(jsonPhotos)['data'] as List<dynamic>;
-    List<UserAccount> accountInfoList =
+    <UserAccount> accountInfoList =
     jsonResponse.map((it) => UserAccount.fromJson(it)).toList();
     return accountInfoList;
   }

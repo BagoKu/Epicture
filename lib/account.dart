@@ -1,24 +1,17 @@
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import './api/ApiRequests.dart';
+import './api/models/UserAccount.dart';
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 class MyAccount extends StatelessWidget {
   // This widget is the root of your application.
 
-  void test() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("AAAAAAAAAAAAAAAAAAAAAAAA");
-    print(prefs.getString("newUrl"));
-  }
-
-  Future<String> getNetworkString() async {
-    await Future.delayed(Duration(seconds: 1));
-
-    return "AAAAA";
-  }
-
-  Future<bool> isLogIn() async {
+    Future<bool> isLogIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString("newUrl") == null)
       return false;
@@ -26,14 +19,23 @@ class MyAccount extends StatelessWidget {
       return true;
   }
 
+  void splitString() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String url = prefs.getString("newUrl");
+      List<String> infos = url.split('&');
+      List<String> data;
+
+      for (var i = 0; i < infos.length; i++) {
+        data = infos[i].split('=');
+        prefs.setString(data[0], data[1]);
+      }
+      print(prefs.getKeys());
+  }
+
   @override
   Widget build(BuildContext context) {
-    getNetworkString().then((response) {
-      print(response);
-    });
-
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Connect to Imgur',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -42,7 +44,8 @@ class MyAccount extends StatelessWidget {
           builder: (builder, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data == true) {
-                return Text('Je suis connecté');
+                splitString();
+                return IsConnected();
               } else {
                 return GetCurrentURLWebView();
               }
@@ -52,6 +55,85 @@ class MyAccount extends StatelessWidget {
           },
          future: this.isLogIn(),
       ),
+    );
+  }
+}
+
+class AccountAvatar {
+  getAccountAvatar() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    ImgurAPi().loadUserAccountInfo(prefs.getString("account_username"));
+
+  }
+
+}
+
+class homeAccount extends StatelessWidget {
+  void Disconnect() async {
+
+  }
+
+  Future<String> getUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return(prefs.getString("account_username"));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Account'),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.power_settings_new),
+                onPressed: () {
+                  Disconnect();
+                }),
+          ],
+        ),
+        body: FutureBuilder<List<UserAccount>>(
+            future: ImgurAPi().loadUserAccountInfo(getUsername()),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Text('Error');
+                }
+              }
+              if (snapshot.hasData) {
+                return Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: GridView.count(
+                        crossAxisCount: 4,
+                        padding: const EdgeInsets.all(10),
+                        children: snapshot.data.where((it) =>
+                        it.avatarName != null)
+                            .map((it) =>
+                            Text(it.avatarName)),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return CircularProgressIndicator();
+            }
+        )
+    );
+  }
+
+
+class IsConnected extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'is connected',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home : homeAccount(),
     );
   }
 }
