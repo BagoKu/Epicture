@@ -1,3 +1,4 @@
+import 'package:flutter_app/AccountView.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,7 +43,7 @@ class MyAccount extends StatelessWidget {
           builder: (builder, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data == true) {
-                return Text('Je suis connecté');
+                return AccountView(title: 'Your account', username: 'LittleBagz', refreshtoken: '');
               } else {
                 return GetCurrentURLWebView();
               }
