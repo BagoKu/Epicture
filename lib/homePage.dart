@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 }
               }
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }));
 
     /*drawer: Drawer(

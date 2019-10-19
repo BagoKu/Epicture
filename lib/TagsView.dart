@@ -34,26 +34,30 @@ class _TagListState extends State<TagList> {
                     return Text('Error');
                   }
                   if (snapshot.hasData) {
-                    return Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: GridView.count(
-                              crossAxisCount: 4,
-                                controller: _controller,
-                                padding: const EdgeInsets.all(10),
-                                children: snapshot.data.where((it) =>
-                                it.name != null)
-                                    .map((it) =>
-                                    DrawTiles(content: it.name, color: Colors.green, radius: 10))
-                                    .toList()
-                              //children: snapshot.data.where((it) =>it.images != null && it.images.length > 0 && it.images.first.type.contains("image")).map((it) => FadeInImage.assetNetwork(placeholder: 'assets/load.jpeg',image: it.images.first.link)).toList()
-                            ),
-                          )
-                        ]
+                    return ConstrainedBox(
+                      constraints: const BoxConstraints.expand(),
+                      child: Column(
+                          children: <Widget>[
+                            Expanded(
+                              child: GridView.count(
+                                  childAspectRatio:1,
+                                crossAxisCount: 3,
+                                  controller: _controller,
+                                  padding: const EdgeInsets.all(0.0),
+                                  children: snapshot.data.where((it) =>
+                                  it.name != null)
+                                      .map((it) =>
+                                      DrawTiles(content: it.name, color: Colors.transparent, followers: it.followers.toString(), textcolor: Colors.blue, radius: 0, url: 'https://i.imgur.com/' + it.backgroundHash + '.jpg'))
+                                      .toList()
+                                //children: snapshot.data.where((it) =>it.images != null && it.images.length > 0 && it.images.first.type.contains("image")).map((it) => FadeInImage.assetNetwork(placeholder: 'assets/load.jpeg',image: it.images.first.link)).toList()
+                              ),
+                            )
+                          ]
+                      ),
                     );
                   }
                 }
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               }));
     }
   }

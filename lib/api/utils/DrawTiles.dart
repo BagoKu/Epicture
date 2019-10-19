@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class DrawTiles extends StatefulWidget {
-  DrawTiles({Key key, this.content, this.size, this.color, this.radius, this.url})
+  DrawTiles({Key key, this.content, this.followers, this.color, this.radius, this.url, this.textcolor})
       : super(key: key);
 
   final String content;
   final String url;
-  final double size;
+  final String followers;
   final Color color;
+  final Color textcolor;
   final double radius;
 
   @override
@@ -20,13 +21,25 @@ class _DrawTilesState extends State<DrawTiles> {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(widget.radius),
-            ),
-            color: widget.color,
-            semanticContainer: true,
-            child: Padding(
-                padding: EdgeInsets.all(10), child: Text(widget.content, style: TextStyle(color: Colors.white)))));
+          child: FlatButton(
+            onPressed: (){},
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(widget.radius),
+              ),
+              color: widget.color,
+              child: Column(
+                    children: <Widget>[
+                      Image.network(widget.url),
+                      Text(widget.content, style: TextStyle(color: widget.textcolor)),
+                      Row(
+                        children: <Widget>[
+                          Icon (Icons.person, color: Colors.deepOrange),
+                          Text(widget.followers, style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
+                    ],
+                  )
+              ),
+        );
   }
 }
