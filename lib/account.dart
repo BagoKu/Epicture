@@ -1,3 +1,4 @@
+import 'package:flutter_app/AccountView.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +33,11 @@ class MyAccount extends StatelessWidget {
       print(prefs.getKeys());
   }
 
+  Future<String> getSharedKey(String key) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      return(prefs.getString(key));
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,7 +51,7 @@ class MyAccount extends StatelessWidget {
             if (snapshot.hasData) {
               if (snapshot.data == true) {
                 splitString();
-                return IsConnected();
+                return AccountView(title: 'Your account', username: "LittleBagz" /*getSharedKey("account_username")*/, refreshtoken: "" /*getSharedKey("refresh_token")*/);
               } else {
                 return GetCurrentURLWebView();
               }
@@ -57,15 +63,6 @@ class MyAccount extends StatelessWidget {
       ),
     );
   }
-}
-
-class AccountAvatar {
-  getAccountAvatar() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    ImgurAPi().loadUserAccountInfo(prefs.getString("account_username"));
-
-  }
-
 }
 
 class homeAccount extends StatelessWidget {
@@ -92,33 +89,6 @@ class homeAccount extends StatelessWidget {
                 }),
           ],
         ),
-        body: FutureBuilder<List<UserAccount>>(
-            future: ImgurAPi().loadUserAccountInfo(getUsername()),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  return Text('Error');
-                }
-              }
-              if (snapshot.hasData) {
-                return Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: GridView.count(
-                        crossAxisCount: 4,
-                        padding: const EdgeInsets.all(10),
-                        children: snapshot.data.where((it) =>
-                        it.avatarName != null)
-                            .map((it) =>
-                            Text(it.avatarName)),
-                      ),
-                    ),
-                  ],
-                );
-              }
-              return CircularProgressIndicator();
-            }
-        )
     );
   }
 }

@@ -8,10 +8,11 @@ import './models/GalleryAlbum.dart';
 import './models/GalleryTags.dart';
 
 class ImgurAPi {
-  Future<String> _loadAccountInfo(String username) async {
+  Future<String> _loadAccountInfo(String username, String refreshToken) async {
     final response = await http.get(
       'https://api.imgur.com/3/account/' + username,
-      headers: {HttpHeaders.authorizationHeader: "Client-ID 759705448d0ff69"},
+      headers: {HttpHeaders.authorizationHeader: "Client-ID 759705448d0ff69",
+        HttpHeaders.authorizationHeader: "refresh_token " + refreshToken},
     );
     return response.body;
   }
@@ -30,8 +31,8 @@ class ImgurAPi {
     return response.body;
   }
 
-  Future<UserAccount> loadUserAccountInfo(String username) async {
-    String jsonPhotos = await _loadAccountInfo(username);
+  Future<List<UserAccount>> loadUserAccountInfo(String username, String refreshToken) async {
+    String jsonPhotos = await _loadAccountInfo(username, refreshToken);
     final jsonResponse =
     json.decode(jsonPhotos)['data'] as List<dynamic>;
     Iterable<UserAccount> accountInfoList =
