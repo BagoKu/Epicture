@@ -16,7 +16,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var mPageCount = 0;
+  int mPageCount = 0;
   bool isLoading = false;
   ScrollController _controller;
   ImgurAPi imgurapi = new ImgurAPi();
@@ -24,7 +24,11 @@ class _MyHomePageState extends State<MyHomePage> {
   _scrollListener() {
     if (_controller.offset >= _controller.position.maxScrollExtent &&
         !_controller.position.outOfRange) {
-      //_fetchImages();
+      mPageCount++;
+      setState(() {
+        
+      });
+      print(mPageCount);
     }
   }
 
@@ -33,11 +37,12 @@ class _MyHomePageState extends State<MyHomePage> {
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
     super.initState();
-    //_fetchImages();
+    print('initstate');
   }
 
   @override
   Widget build(BuildContext context) {
+    print(mPageCount);
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -45,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.black87,
         //body: _homePage(),
         body: FutureBuilder<List<GalleryAlbum>>(
-            future: imgurapi.loadPhotos(0),
+            future: imgurapi.loadPhotos(mPageCount),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
@@ -56,12 +61,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       Expanded(
                           child: ListView(
+                              controller: _controller,
                             padding: const EdgeInsets.all(10),
-                              //children: ShowGallery(key:widget.key, url: "https://i.imgur.com/2u1P8de.jpg")
-
-
-                              children: snapshot.data.where((it) =>it.images != null && it.images.length > 0 && it.images.first.type.contains("image")).map((it) => ShowGallery(key:widget.key, url: it)).toList()
-
+                              children: snapshot.data.where((it) =>  it.images != null && it.images.first.type.contains("image")).map((it) => ShowGallery(key:widget.key, url: it)).toList()
                              //children: snapshot.data.where((it) =>it.images != null && it.images.length > 0 && it.images.first.type.contains("image")).map((it) => FadeInImage.assetNetwork(placeholder: 'assets/load.jpeg',image: it.images.first.link)).toList()
                           ),
                       )
@@ -71,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
               }
               return CircularProgressIndicator();
             }));
+
     /*drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
