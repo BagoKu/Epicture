@@ -23,6 +23,13 @@ class ImgurAPi {
     );
     return response.body;
   }
+  Future<String> _loadSearch(int page, String tag) async {
+    final response = await http.get(
+      'https://api.imgur.com/3/tags',
+      headers: {HttpHeaders.authorizationHeader: "Client-ID 759705448d0ff69"},
+    );
+    return response.body;
+  }
   Future<String> _loadPhotoAsset(int page, String tag) async {
     final response = await http.get(
       'https://api.imgur.com/3/gallery/t/' + tag +'/' + page.toString(),
@@ -51,6 +58,15 @@ class ImgurAPi {
         json.decode(jsonPhotos)['data']['items'] as List<dynamic>;
     List<GalleryAlbum> photosList =
         jsonResponse.map((it) => GalleryAlbum.fromJson(it)).toList();
+    return photosList;
+  }
+
+  Future<List<GalleryAlbum>> loadSearch(int page, String tag) async {
+    String jsonPhotos = await _loadSearch(page, tag);
+    final jsonResponse =
+    json.decode(jsonPhotos)['data'] as List<dynamic>;
+    List<GalleryAlbum> photosList =
+    jsonResponse.map((it) => GalleryAlbum.fromJson(it)).toList();
     return photosList;
   }
 

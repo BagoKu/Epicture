@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/api/models/UserAccount.dart';
 import 'package:flutter_app/api/utils/DrawTitle.dart';
-import './api/utils/DrawTiles.dart';
 import './api/ApiRequests.dart';
-import './api/models/GalleryTags.dart';
 
 class AccountView extends StatefulWidget {
   AccountView({Key key, this.title, this.username, this.refreshtoken}) : super(key: key);
@@ -48,8 +46,7 @@ class _AccountViewState extends State<AccountView> {
                           .map((it) =>
                           DrawTitle(info: it.avatarName, color: Colors.transparent))
                           .toList()
-                    //children: snapshot.data.where((it) =>it.images != null && it.images.length > 0 && it.images.first.type.contains("image")).map((it) => FadeInImage.assetNetwork(placeholder: 'assets/load.jpeg',image: it.images.first.link)).toList()
-                  );
+                   );
                 } else {
                   return CircularProgressIndicator();
                 }

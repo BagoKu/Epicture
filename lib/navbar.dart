@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/TagsView.dart';
 import './homePage.dart';
+import './SearchBar.dart';
 import 'account.dart';
 
 class NavBar extends StatefulWidget {
@@ -15,11 +16,8 @@ class _NavBarStata extends State<NavBar> {
   final _pageOptions = [
     TagList(title: 'Tags'),
     MyHomePage(
-      title: 'Random bite', tag: 'cats'),
-    Text(
-      'Search',
-      style: TextStyle(fontSize: 30.0),
-    ),
+      title: 'Top Contents', tag: 'epitech'),
+   SearchBar(title: 'Search'),
     MyAccount(),
   ];
   @override

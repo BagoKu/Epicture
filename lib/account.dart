@@ -2,12 +2,7 @@ import 'package:flutter_app/AccountView.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import './api/ApiRequests.dart';
-import './api/models/UserAccount.dart';
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 class MyAccount extends StatelessWidget {
   // This widget is the root of your application.
