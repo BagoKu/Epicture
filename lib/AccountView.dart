@@ -50,6 +50,8 @@ class _AccountViewState extends State<AccountView> {
                           .toList()
                     //children: snapshot.data.where((it) =>it.images != null && it.images.length > 0 && it.images.first.type.contains("image")).map((it) => FadeInImage.assetNetwork(placeholder: 'assets/load.jpeg',image: it.images.first.link)).toList()
                   );
+                } else {
+                  return CircularProgressIndicator();
                 }
               }
               return Center(child: CircularProgressIndicator());

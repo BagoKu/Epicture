@@ -33,11 +33,6 @@ class MyAccount extends StatelessWidget {
       print(prefs.getKeys());
   }
 
-  Future<String> getSharedKey(String key) async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      return(prefs.getString(key));
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -51,7 +46,7 @@ class MyAccount extends StatelessWidget {
             if (snapshot.hasData) {
               if (snapshot.data == true) {
                 splitString();
-                return AccountView(title: 'Your account', username: "LittleBagz" /*getSharedKey("account_username")*/, refreshtoken: "" /*getSharedKey("refresh_token")*/);
+                return IsConnected();
               } else {
                 return GetCurrentURLWebView();
               }
@@ -93,7 +88,50 @@ class homeAccount extends StatelessWidget {
   }
 }
 
+class _getSecondArg extends StatefulWidget {
+  _getSecondArg(this.username);
+  final String username;
+
+  @override
+  State<StatefulWidget> createState() {
+    return getSecondArg();
+  }
+}
+
+
+class getSecondArg extends State<_getSecondArg> {
+
+  Future<String> getSharedKey(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return(prefs.getString(key));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home : FutureBuilder<String>(
+        builder: (builder, snapshot) {
+          if (snapshot.hasData) {
+            print(snapshot.data);
+            print(widget.username);
+            return AccountView(title: 'Your account', username: widget.username, refreshtoken: snapshot.data);
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+        future: this.getSharedKey("refresh_token"),
+      ),
+    );
+  }
+}
+
+
 class IsConnected extends StatelessWidget {
+
+  Future<String> getSharedKey(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return(prefs.getString(key));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +141,16 @@ class IsConnected extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home : homeAccount(),
+      home : FutureBuilder<String>(
+        builder: (builder, snapshot) {
+      if (snapshot.hasData) {
+          return _getSecondArg(snapshot.data);
+      } else {
+        return CircularProgressIndicator();
+      }
+    },
+    future: this.getSharedKey("account_username"),
+    ),
     );
   }
 }
