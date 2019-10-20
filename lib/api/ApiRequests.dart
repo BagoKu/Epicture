@@ -11,8 +11,8 @@ class ImgurAPi {
   Future<String> _loadAccountInfo(String username, String refreshToken) async {
     final response = await http.get(
       'https://api.imgur.com/3/account/' + username,
-      headers: {HttpHeaders.authorizationHeader: "Client-ID 759705448d0ff69",
-        HttpHeaders.authorizationHeader: "refresh_token " + refreshToken},
+      headers: {HttpHeaders.authorizationHeader: "Bearer " + refreshToken,
+        HttpHeaders.authorizationHeader: "Client-ID 759705448d0ff69"},
     );
     return response.body;
   }
@@ -33,10 +33,15 @@ class ImgurAPi {
 
   Future<List<UserAccount>> loadUserAccountInfo(String username, String refreshToken) async {
     String jsonPhotos = await _loadAccountInfo(username, refreshToken);
+    //print(jsonPhotos);
+    print("LA");
     final jsonResponse =
     json.decode(jsonPhotos)['data'] as List<dynamic>;
+    print("ICI");
+    print(jsonResponse);
     Iterable<UserAccount> accountInfoList =
     jsonResponse.map((it) => UserAccount.fromJson(it));
+    print(accountInfoList);
     return accountInfoList;
   }
 
