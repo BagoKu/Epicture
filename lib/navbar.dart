@@ -15,8 +15,7 @@ class _NavBarStata extends State<NavBar> {
   final _pageOptions = [
     TagList(title: 'Tags'),
     MyHomePage(
-      title: 'Random pics',
-    ),
+      title: 'Random bite', tag: 'cats'),
     Text(
       'Search',
       style: TextStyle(fontSize: 30.0),

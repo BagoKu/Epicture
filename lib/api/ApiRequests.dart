@@ -23,9 +23,9 @@ class ImgurAPi {
     );
     return response.body;
   }
-  Future<String> _loadPhotoAsset(int page) async {
+  Future<String> _loadPhotoAsset(int page, String tag) async {
     final response = await http.get(
-      'https://api.imgur.com/3/gallery/t/cats/' + page.toString(),
+      'https://api.imgur.com/3/gallery/t/' + tag +'/' + page.toString(),
       headers: {HttpHeaders.authorizationHeader: "Client-ID 759705448d0ff69"},
     );
     return response.body;
@@ -40,8 +40,8 @@ class ImgurAPi {
     return accountInfoList;
   }
 
-  Future<List<GalleryAlbum>> loadPhotos(int page) async {
-    String jsonPhotos = await _loadPhotoAsset(page);
+  Future<List<GalleryAlbum>> loadPhotos(int page, String tag) async {
+    String jsonPhotos = await _loadPhotoAsset(page, tag);
     final jsonResponse =
         json.decode(jsonPhotos)['data']['items'] as List<dynamic>;
     List<GalleryAlbum> photosList =

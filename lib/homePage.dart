@@ -4,9 +4,9 @@ import './api/models/GalleryAlbum.dart';
 import './api/utils/ShowGallery.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title, this.tag}) : super(key: key);
   final String title;
-
+  final String tag;
   @override
   State<StatefulWidget> createState() {
     return _MyHomePageState();
@@ -40,14 +40,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.title);
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
         ),
         backgroundColor: Colors.black87,
-        //body: _homePage(),
         body: FutureBuilder<List<GalleryAlbum>>(
-            future: imgurapi.loadPhotos(mPageCount),
+            future: imgurapi.loadPhotos(mPageCount,widget.tag),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {

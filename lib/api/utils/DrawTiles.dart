@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/homePage.dart';
 
 class DrawTiles extends StatefulWidget {
   DrawTiles({Key key, this.content, this.followers, this.color, this.radius, this.url, this.textcolor})
@@ -22,7 +23,9 @@ class _DrawTilesState extends State<DrawTiles> {
   Widget build(BuildContext context) {
     return Center(
           child: FlatButton(
-            onPressed: (){},
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: widget.content, tag: widget.content)));
+            },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(widget.radius),
               ),
